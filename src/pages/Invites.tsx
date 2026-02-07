@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ArrowLeft, Search } from "lucide-react";
+import { ArrowLeft, Search, MapPin } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import fairepart1 from "@/assets/fairepart1.jpg";
@@ -16,7 +16,6 @@ const Invites = () => {
 
   const faireParts = [fairepart1, fairepart2];
 
-  // Animation des faire-part
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImage((prev) => (prev + 1) % faireParts.length);
@@ -24,7 +23,6 @@ const Invites = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Recherche d'invité
   const rechercherInvite = async () => {
     setRecherche(true);
     setErreur("");
@@ -72,16 +70,16 @@ const Invites = () => {
       <header className="bg-primary text-primary-foreground p-4 flex items-center gap-4">
         <button
           onClick={() => navigate("/")}
-          className="p-2 hover:bg-primary-light rounded-lg transition-colors"
+          className="p-2 hover:bg-primary-light/20 rounded-lg transition-colors"
           aria-label="Retour"
         >
-          <ArrowLeft className="w-6 h-6" />
+          <ArrowLeft className="w-5 h-5" />
         </button>
-        <h1 className="font-display text-2xl">Faire-Part</h1>
+        <h1 className="font-display text-xl tracking-wide">Faire-Part</h1>
       </header>
 
-      {/* Diaporama des faire-part */}
-      <div className="relative w-full bg-secondary/50 flex items-center justify-center overflow-hidden"
+      {/* Slideshow */}
+      <div className="relative w-full bg-secondary/30 flex items-center justify-center overflow-hidden"
            style={{ minHeight: "50vh" }}>
         {faireParts.map((img, index) => (
           <img
@@ -94,14 +92,14 @@ const Invites = () => {
           />
         ))}
         
-        {/* Indicateurs */}
+        {/* Indicators */}
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
           {faireParts.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentImage(index)}
-              className={`w-3 h-3 rounded-full transition-colors ${
-                currentImage === index ? "bg-gold" : "bg-muted"
+              className={`w-2 h-2 rounded-full transition-all ${
+                currentImage === index ? "bg-gold w-6" : "bg-muted-foreground/40"
               }`}
               aria-label={`Voir faire-part ${index + 1}`}
             />
@@ -109,16 +107,19 @@ const Invites = () => {
         </div>
       </div>
 
-      {/* Section Recherche */}
+      {/* Search Section */}
       <div className="flex-1 p-4">
         <div className="card-elegant max-w-md mx-auto">
-          <h2 className="font-display text-2xl text-primary text-center mb-6">
-            🔍 Trouvez votre table
-          </h2>
+          <div className="flex items-center justify-center gap-2 mb-6">
+            <Search className="w-5 h-5 text-primary" />
+            <h2 className="font-display text-2xl text-primary">
+              Trouvez votre table
+            </h2>
+          </div>
 
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-foreground mb-1">
+              <label className="block text-sm font-medium text-foreground mb-1.5">
                 Nom
               </label>
               <input
@@ -131,7 +132,7 @@ const Invites = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-foreground mb-1">
+              <label className="block text-sm font-medium text-foreground mb-1.5">
                 Prénom
               </label>
               <input
@@ -148,30 +149,30 @@ const Invites = () => {
               disabled={recherche}
               className="btn-primary w-full flex items-center justify-center gap-2"
             >
-              <Search className="w-5 h-5" />
+              <Search className="w-4 h-4" />
               {recherche ? "Recherche..." : "Rechercher"}
             </button>
           </div>
 
-          {/* Résultat */}
+          {/* Result */}
           {resultat && (
-            <div className="mt-6 p-4 bg-accent/50 rounded-lg text-center animate-fade-in">
-              <p className="text-lg font-medium text-foreground">
+            <div className="mt-6 p-5 bg-accent/30 rounded-xl text-center animate-fade-in border border-gold/20">
+              <p className="text-lg font-medium text-foreground mb-3">
                 {resultat.prenom} {resultat.nom}
               </p>
-              <div className="mt-3 inline-flex items-center gap-2 px-6 py-3 bg-gold/20 rounded-full">
-                <span className="text-2xl">🪑</span>
-                <span className="font-display text-3xl text-primary">
+              <div className="inline-flex items-center gap-2 px-5 py-3 bg-primary/10 rounded-lg border border-primary/20">
+                <MapPin className="w-5 h-5 text-primary" />
+                <span className="font-display text-2xl text-primary">
                   Table {resultat.table ?? "Non attribuée"}
                 </span>
               </div>
             </div>
           )}
 
-          {/* Erreur */}
+          {/* Error */}
           {erreur && (
-            <div className="mt-6 p-4 bg-destructive/10 rounded-lg text-center">
-              <p className="text-destructive">{erreur}</p>
+            <div className="mt-6 p-4 bg-destructive/10 rounded-lg text-center border border-destructive/20">
+              <p className="text-destructive text-sm">{erreur}</p>
             </div>
           )}
         </div>
