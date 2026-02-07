@@ -56,29 +56,31 @@ const LoginForm = ({ onSuccess }: LoginFormProps) => {
   };
 
   return (
-    <div className="max-w-md mx-auto animate-fade-slide">
-      <div className="card-elegant">
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
-            <Lock className="w-8 h-8 text-primary" />
+    <div className="max-w-md w-full mx-auto animate-fade-slide-up">
+      <div className="card-elegant shadow-elegant hover:shadow-lg transition-all duration-300">
+        <div className="text-center mb-8 space-y-4">
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-br from-gold/20 to-gold/10 border-2 border-gold/40 animate-float">
+            <Lock className="w-7 h-7 text-gold" />
           </div>
-          <h2 className="font-display text-3xl text-primary">
-            {mode === "login" ? "Connexion" : "Inscription"}
-          </h2>
-          <p className="text-muted-foreground mt-2">
-            {mode === "login"
-              ? "Accédez à la gestion des invités"
-              : "Créez votre compte"}
-          </p>
+          <div>
+            <h2 className="font-display text-3xl text-primary tracking-wide">
+              {mode === "login" ? "Connexion" : "Inscription"}
+            </h2>
+            <p className="text-muted-foreground text-sm">
+              {mode === "login"
+                ? "Accédez à votre espace personnalisé"
+                : "Créez votre compte sécurisé"}
+            </p>
+          </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-foreground mb-1">
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-foreground tracking-wide">
               Email
             </label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+              <Mail className="absolute left-3 top-3.5 w-5 h-5 text-gold/60" />
               <input
                 type="email"
                 value={email}
@@ -90,12 +92,12 @@ const LoginForm = ({ onSuccess }: LoginFormProps) => {
             </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-foreground mb-1">
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-foreground tracking-wide">
               Mot de passe
             </label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+              <Lock className="absolute left-3 top-3.5 w-5 h-5 text-gold/60" />
               <input
                 type="password"
                 value={password}
@@ -108,22 +110,10 @@ const LoginForm = ({ onSuccess }: LoginFormProps) => {
             </div>
           </div>
 
-          {error && (
-            <div className="p-3 bg-destructive/10 rounded-lg">
-              <p className="text-destructive text-sm">{error}</p>
-            </div>
-          )}
-
-          {message && (
-            <div className="p-3 bg-accent rounded-lg">
-              <p className="text-primary text-sm">{message}</p>
-            </div>
-          )}
-
           <button
             type="submit"
             disabled={loading}
-            className="btn-primary w-full"
+            className="btn-primary w-full font-medium tracking-wide"
           >
             {loading
               ? "Chargement..."
@@ -133,18 +123,31 @@ const LoginForm = ({ onSuccess }: LoginFormProps) => {
           </button>
         </form>
 
-        <div className="mt-6 text-center">
+        {error && (
+          <div className="mt-6 p-4 rounded-lg text-center animate-scale-in" style={{ background: "rgba(220, 38, 38, 0.1)", border: "1px solid rgba(220, 38, 38, 0.2)" }}>
+            <p className="text-destructive text-sm font-medium">{error}</p>
+          </div>
+        )}
+
+        {message && (
+          <div className="mt-6 p-4 rounded-lg text-center animate-scale-in" style={{ background: "rgba(34, 197, 94, 0.1)", border: "1px solid rgba(34, 197, 94, 0.2)" }}>
+            <p className="text-green-600 text-sm font-medium">{message}</p>
+          </div>
+        )}
+
+        <div className="mt-6 pt-6 border-t border-border/50 text-center">
+          <p className="text-muted-foreground text-sm mb-3">
+            {mode === "login" ? "Pas encore de compte ?" : "Déjà inscrit ?"}
+          </p>
           <button
             onClick={() => {
               setMode(mode === "login" ? "signup" : "login");
               setError("");
               setMessage("");
             }}
-            className="text-primary hover:underline text-sm"
+            className="text-gold hover:text-gold-light transition-colors text-sm font-medium tracking-wide"
           >
-            {mode === "login"
-              ? "Pas encore de compte ? S'inscrire"
-              : "Déjà un compte ? Se connecter"}
+            {mode === "login" ? "Créer un compte" : "Se connecter"}
           </button>
         </div>
       </div>
