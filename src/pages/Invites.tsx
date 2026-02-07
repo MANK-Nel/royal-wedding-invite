@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ArrowLeft, Search, MapPin, Heart, Sparkles } from "lucide-react";
+import { ArrowLeft, Search, MapPin, Heart, Table } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import fairepart1 from "@/assets/fairepart1.jpg";
@@ -169,21 +169,49 @@ const Invites = () => {
 
           {/* Result - Enhanced display */}
           {resultat && (
-            <div className="mt-8 p-6 rounded-xl text-center animate-scale-in space-y-4" style={{ background: "linear-gradient(135deg, rgba(194, 165, 82, 0.1) 0%, rgba(45, 30, 250, 0.05) 100%)" }}>
+            <div className="mt-8 animate-scale-in space-y-6">
+              {/* Floating icon */}
               <div className="flex justify-center">
-                <Sparkles className="w-5 h-5 text-gold animate-bounce-subtle" />
-              </div>
-              <p className="text-lg font-medium text-foreground">
-                {resultat.prenom} {resultat.nom}
-              </p>
-              <div className="inline-flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-primary/10 to-gold/10 rounded-lg border border-primary/20">
-                <MapPin className="w-6 h-6 text-primary" />
-                <div>
-                  <p className="text-xs text-muted-foreground uppercase tracking-wider">Table</p>
-                  <p className="font-display text-3xl text-primary font-light">
-                    {resultat.table ?? "—"}
-                  </p>
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-gold/20 to-gold/10 border-2 border-gold/40 animate-float shadow-lg">
+                  <Table className="w-8 h-8 text-gold" />
                 </div>
+              </div>
+
+              {/* Main card */}
+              <div className="bg-gradient-to-br from-card via-card to-secondary/5 border-2 border-gold/20 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 space-y-6">
+                {/* Guest name */}
+                <div className="text-center space-y-2">
+                  <p className="text-sm font-light text-muted-foreground uppercase tracking-widest">Bienvenue,</p>
+                  <h2 className="font-display text-4xl md:text-5xl text-primary tracking-wide font-light">
+                    {resultat.prenom}
+                  </h2>
+                  <p className="text-xl text-foreground/70 font-light">{resultat.nom}</p>
+                </div>
+
+                {/* Divider */}
+                <div className="flex items-center justify-center gap-3">
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
+                  <Heart className="w-4 h-4 text-gold" />
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
+                </div>
+
+                {/* Table number - prominent display */}
+                <div className="bg-gradient-to-r from-primary/5 via-gold/5 to-primary/5 border border-primary/20 rounded-xl p-8 backdrop-blur-sm">
+                  <p className="text-xs font-light text-muted-foreground uppercase tracking-widest mb-3">Votre table</p>
+                  <div className="flex items-center justify-center gap-4">
+                    <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-primary/10 border-2 border-primary/40">
+                      <MapPin className="w-6 h-6 text-primary" />
+                    </div>
+                    <div className="font-display text-5xl md:text-6xl text-primary font-light tracking-tight">
+                      {resultat.table ?? "—"}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Footer message */}
+                <p className="text-center text-sm text-muted-foreground font-light leading-relaxed">
+                  Préparez-vous pour une célébration inoubliable le 14 février 2026 à Port-Gentil
+                </p>
               </div>
             </div>
           )}
