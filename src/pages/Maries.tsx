@@ -72,16 +72,18 @@ const Maries = () => {
       </header>
 
       {/* Contenu principal */}
-      <main className="p-4 md:p-8 max-w-7xl mx-auto w-full">
-        {isAuthenticated ? (
-          <div className="animate-fade-slide-up">
-            <GestionInvites />
-          </div>
-        ) : (
-          <div className="flex items-center justify-center min-h-[60vh]">
-            <LoginForm onSuccess={() => setIsAuthenticated(true)} />
-          </div>
-        )}
+      <main className="p-6 md:p-12 min-h-[calc(100vh-140px)]">
+        <div className="max-w-6xl mx-auto">
+          {isAuthenticated ? (
+            <div className="animate-fade-slide-up">
+              <GestionInvites />
+            </div>
+          ) : (
+            <div className="flex items-center justify-center min-h-[60vh]">
+              <LoginForm onSuccess={() => setIsAuthenticated(true)} />
+            </div>
+          )}
+        </div>
       </main>
     </div>
   );

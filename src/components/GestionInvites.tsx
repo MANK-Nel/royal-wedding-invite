@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Plus, Edit2, Trash2, Save, X, Users } from "lucide-react";
+import { Plus, Edit2, Trash2, Save, X, Users, MapPin } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 interface Invite {
@@ -146,28 +146,30 @@ const GestionInvites = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 animate-fade-slide-up">
-        <div className="flex items-center gap-4">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gold/10 border-2 border-gold/40 animate-float">
-            <Users className="w-6 h-6 text-gold" />
+    <div className="space-y-8">
+      {/* Header Section */}
+      <div className="bg-gradient-to-br from-primary/5 via-gold/5 to-transparent border border-gold/20 rounded-2xl p-8 animate-fade-slide-up">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+          <div className="flex items-start gap-5 flex-1">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-gold/20 to-gold/10 border-2 border-gold/40 animate-float flex-shrink-0">
+              <Users className="w-8 h-8 text-gold" />
+            </div>
+            <div>
+              <h2 className="font-display text-3xl md:text-4xl text-primary tracking-wide mb-2">Gestion des Invités</h2>
+              <p className="text-muted-foreground text-base font-light">{invites.length} invité(s) enregistré(s)</p>
+            </div>
           </div>
-          <div>
-            <h2 className="font-display text-2xl text-primary tracking-wide">Gestion des Invités</h2>
-            <p className="text-muted-foreground text-sm font-light">{invites.length} invité(s) enregistré(s)</p>
-          </div>
-        </div>
         
-        {!showForm && !editingId && (
-          <button
-            onClick={() => setShowForm(true)}
-            className="btn-gold flex items-center gap-2 py-3 px-6 group hover:scale-105 transition-all"
-          >
-            <Plus className="w-5 h-5 group-hover:scale-125 transition-transform" />
-            <span>Ajouter un invité</span>
-          </button>
-        )}
+          {!showForm && !editingId && (
+            <button
+              onClick={() => setShowForm(true)}
+              className="btn-gold flex items-center gap-2 py-3 px-7 group hover:scale-105 transition-all shadow-lg whitespace-nowrap"
+            >
+              <Plus className="w-5 h-5 group-hover:scale-125 transition-transform" />
+              <span className="font-medium">Ajouter un invité</span>
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Formulaire d'ajout */}
@@ -238,59 +240,64 @@ const GestionInvites = () => {
         </div>
       )}
 
-      {/* Liste des invités */}
-      {invites.length === 0 ? (
-        <div className="card-elegant text-center py-16 border-2 border-dashed border-gold/20 animate-fade-slide-up">
-          <Users className="w-16 h-16 text-muted/30 mx-auto mb-4" />
-          <p className="text-muted-foreground font-light">Aucun invité pour le moment.</p>
-          <p className="text-muted-foreground text-sm mt-2 font-light">
-            Cliquez sur "Ajouter un invité" pour commencer.
-          </p>
-        </div>
-      ) : (
-        <div className="space-y-3">
-          {invites.map((invite, index) => (
-            <div
-              key={invite.id}
-              className="card-elegant border border-border/50 hover:border-gold/30 hover:shadow-lg hover:bg-gradient-to-r hover:from-card hover:to-gold/5 transition-all group animate-fade-slide-up"
-              style={{ animationDelay: `${index * 50}ms` }}
-            >
-              {editingId === invite.id ? (
-                // Mode édition
-                <div className="space-y-4">
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <div>
-                      <label className="block text-sm font-light text-muted-foreground mb-1">Nom *</label>
-                      <input
-                        type="text"
-                        value={formData.nom}
-                        onChange={(e) => setFormData({ ...formData, nom: e.target.value })}
-                        placeholder="Nom"
-                        className="w-full px-3 py-2 rounded-lg border border-border/50 bg-background/50 focus:bg-background focus:border-gold/50 focus:outline-none focus:ring-2 focus:ring-gold/20 transition-all text-sm"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-light text-muted-foreground mb-1">Prénom *</label>
-                      <input
-                        type="text"
-                        value={formData.prenom}
-                        onChange={(e) => setFormData({ ...formData, prenom: e.target.value })}
-                        placeholder="Prénom"
-                        className="w-full px-3 py-2 rounded-lg border border-border/50 bg-background/50 focus:bg-background focus:border-gold/50 focus:outline-none focus:ring-2 focus:ring-gold/20 transition-all text-sm"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-light text-muted-foreground mb-1">N° Table</label>
-                      <input
-                        type="number"
-                        value={formData.numero_table}
-                        onChange={(e) => setFormData({ ...formData, numero_table: e.target.value })}
-                        placeholder="Table"
-                        className="w-full px-3 py-2 rounded-lg border border-border/50 bg-background/50 focus:bg-background focus:border-gold/50 focus:outline-none focus:ring-2 focus:ring-gold/20 transition-all text-sm"
-                        min="1"
-                      />
-                    </div>
-                  </div>
+      {/* Guests List Section */}
+      <div className="space-y-4">
+        {invites.length === 0 ? (
+          <div className="card-elegant text-center py-16 border-2 border-dashed border-gold/20 animate-fade-slide-up rounded-2xl">
+            <Users className="w-16 h-16 text-muted/30 mx-auto mb-4" />
+            <p className="text-muted-foreground font-light text-lg">Aucun invité pour le moment.</p>
+            <p className="text-muted-foreground text-sm mt-2 font-light">
+              Cliquez sur "Ajouter un invité" pour commencer.
+            </p>
+          </div>
+        ) : (
+          <>
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="font-display text-lg text-primary/80 tracking-wide">Liste des invités ({invites.length})</h3>
+            </div>
+            <div className="space-y-3">
+              {invites.map((invite, index) => (
+                <div
+                  key={invite.id}
+                  className="bg-gradient-to-r from-card via-card to-secondary/5 border border-border/60 hover:border-gold/50 rounded-xl p-5 hover:shadow-xl hover:bg-gradient-to-r hover:from-card hover:via-gold/5 hover:to-secondary/10 transition-all duration-300 group animate-fade-slide-up"
+                  style={{ animationDelay: `${index * 50}ms` }}
+                >
+                  {editingId === invite.id ? (
+                    // Mode édition - Compact
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <div>
+                          <label className="block text-xs font-light text-muted-foreground mb-2 uppercase tracking-wider">Nom *</label>
+                          <input
+                            type="text"
+                            value={formData.nom}
+                            onChange={(e) => setFormData({ ...formData, nom: e.target.value })}
+                            placeholder="Nom"
+                            className="w-full px-3 py-2 rounded-lg border border-border/50 bg-background/50 focus:bg-background focus:border-gold/50 focus:outline-none focus:ring-2 focus:ring-gold/20 transition-all text-sm"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-light text-muted-foreground mb-2 uppercase tracking-wider">Prénom *</label>
+                          <input
+                            type="text"
+                            value={formData.prenom}
+                            onChange={(e) => setFormData({ ...formData, prenom: e.target.value })}
+                            placeholder="Prénom"
+                            className="w-full px-3 py-2 rounded-lg border border-border/50 bg-background/50 focus:bg-background focus:border-gold/50 focus:outline-none focus:ring-2 focus:ring-gold/20 transition-all text-sm"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-light text-muted-foreground mb-2 uppercase tracking-wider">N° Table</label>
+                          <input
+                            type="number"
+                            value={formData.numero_table}
+                            onChange={(e) => setFormData({ ...formData, numero_table: e.target.value })}
+                            placeholder="Table"
+                            className="w-full px-3 py-2 rounded-lg border border-border/50 bg-background/50 focus:bg-background focus:border-gold/50 focus:outline-none focus:ring-2 focus:ring-gold/20 transition-all text-sm"
+                            min="1"
+                          />
+                        </div>
+                      </div>
                   
                   {error && (
                     <div className="p-2 rounded-lg bg-destructive/10 border border-destructive/30 text-destructive text-xs font-light">
@@ -316,30 +323,35 @@ const GestionInvites = () => {
                   </div>
                 </div>
               ) : (
-                // Mode affichage
+                // Mode affichage - Enhanced
                 <div className="flex items-center justify-between gap-4">
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium text-foreground truncate">
-                      {invite.prenom} <span className="font-light">{invite.nom}</span>
-                    </p>
-                    <p className="text-muted-foreground text-sm font-light mt-1">
-                      <span className="inline-flex items-center gap-1">
-                        Table : <span className="font-medium text-primary">{invite.numero_table ?? "—"}</span>
-                      </span>
-                    </p>
+                    <div className="flex items-baseline gap-2 mb-3">
+                      <p className="font-display text-lg text-foreground">
+                        {invite.prenom}
+                      </p>
+                      <p className="font-display text-lg text-primary/70">
+                        {invite.nom}
+                      </p>
+                    </div>
+                    <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/5 border border-primary/20 rounded-lg">
+                      <MapPin className="w-4 h-4 text-primary/60" />
+                      <span className="text-xs text-muted-foreground uppercase tracking-wider font-light">Table:</span>
+                      <span className="font-display text-base text-primary font-medium">{invite.numero_table ?? "—"}</span>
+                    </div>
                   </div>
                   
-                  <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button
                       onClick={() => startEdit(invite)}
-                      className="p-2 hover:bg-gold/10 rounded-lg transition-colors text-primary hover:text-gold"
+                      className="p-2.5 hover:bg-gold/10 rounded-lg transition-all text-primary hover:text-gold hover:scale-110"
                       title="Modifier"
                     >
                       <Edit2 className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => supprimerInvite(invite.id)}
-                      className="p-2 hover:bg-destructive/10 rounded-lg transition-colors text-destructive/70 hover:text-destructive"
+                      className="p-2.5 hover:bg-destructive/10 rounded-lg transition-all text-destructive/70 hover:text-destructive hover:scale-110"
                       title="Supprimer"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -349,8 +361,10 @@ const GestionInvites = () => {
               )}
             </div>
           ))}
-        </div>
-      )}
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 };
