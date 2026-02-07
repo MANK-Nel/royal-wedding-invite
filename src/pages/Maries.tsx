@@ -44,24 +44,27 @@ const Maries = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-background via-secondary/5 to-background">
       {/* Header */}
-      <header className="bg-primary text-primary-foreground p-4 flex items-center justify-between">
+      <header className="bg-gradient-to-r from-primary to-primary-dark text-primary-foreground p-6 flex items-center justify-between shadow-lg">
         <div className="flex items-center gap-4">
           <button
             onClick={() => navigate("/")}
-            className="p-2 hover:bg-primary-light rounded-lg transition-colors"
+            className="p-2 hover:bg-white/10 rounded-lg transition-all duration-300 hover:scale-110"
             aria-label="Retour"
           >
             <ArrowLeft className="w-6 h-6" />
           </button>
-          <h1 className="font-display text-2xl">Espace Mariés</h1>
+          <div>
+            <h1 className="font-display text-2xl tracking-wider font-light">Espace Mariés</h1>
+            <p className="text-primary-foreground/70 text-sm tracking-wide">Gestion des invitations</p>
+          </div>
         </div>
-        
+
         {isAuthenticated && (
           <button
             onClick={handleLogout}
-            className="px-4 py-2 text-sm bg-primary-light hover:bg-primary-dark rounded-lg transition-colors"
+            className="px-4 py-2 text-sm bg-white/15 hover:bg-white/25 rounded-lg transition-all duration-300 backdrop-blur-sm font-medium"
           >
             Déconnexion
           </button>
@@ -69,11 +72,15 @@ const Maries = () => {
       </header>
 
       {/* Contenu principal */}
-      <main className="p-4">
+      <main className="p-4 md:p-8 max-w-7xl mx-auto w-full">
         {isAuthenticated ? (
-          <GestionInvites />
+          <div className="animate-fade-slide-up">
+            <GestionInvites />
+          </div>
         ) : (
-          <LoginForm onSuccess={() => setIsAuthenticated(true)} />
+          <div className="flex items-center justify-center min-h-[60vh]">
+            <LoginForm onSuccess={() => setIsAuthenticated(true)} />
+          </div>
         )}
       </main>
     </div>
