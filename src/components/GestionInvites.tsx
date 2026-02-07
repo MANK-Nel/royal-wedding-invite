@@ -298,30 +298,30 @@ const GestionInvites = () => {
                           />
                         </div>
                       </div>
-                  
-                  {error && (
-                    <div className="p-2 rounded-lg bg-destructive/10 border border-destructive/30 text-destructive text-xs font-light">
-                      {error}
+                      
+                      {error && (
+                        <div className="p-2 rounded-lg bg-destructive/10 border border-destructive/30 text-destructive text-xs font-light">
+                          {error}
+                        </div>
+                      )}
+                      
+                      <div className="flex gap-2 justify-end pt-2">
+                        <button
+                          onClick={() => modifierInvite(invite.id)}
+                          disabled={saving}
+                          className="py-2 px-4 rounded-lg bg-gradient-to-r from-gold to-gold/80 text-white text-sm font-medium hover:shadow-md hover:from-gold/90 hover:to-gold/70 disabled:opacity-50 transition-all flex items-center justify-center gap-2 group"
+                        >
+                          <Save className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                          {saving ? "..." : "Sauvegarder"}
+                        </button>
+                        <button
+                          onClick={cancelEdit}
+                          className="py-2 px-4 rounded-lg border border-border text-muted-foreground hover:bg-secondary/50 text-sm transition-all"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
                     </div>
-                  )}
-                  
-                  <div className="flex gap-2 justify-end pt-2">
-                    <button
-                      onClick={() => modifierInvite(invite.id)}
-                      disabled={saving}
-                      className="py-2 px-4 rounded-lg bg-gradient-to-r from-gold to-gold/80 text-white text-sm font-medium hover:shadow-md hover:from-gold/90 hover:to-gold/70 disabled:opacity-50 transition-all flex items-center justify-center gap-2 group"
-                    >
-                      <Save className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                      {saving ? "..." : "Sauvegarder"}
-                    </button>
-                    <button
-                      onClick={cancelEdit}
-                      className="py-2 px-4 rounded-lg border border-border text-muted-foreground hover:bg-secondary/50 text-sm transition-all"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
               ) : (
                 // Mode affichage - Enhanced
                 <div className="flex items-center justify-between gap-4">
@@ -341,7 +341,7 @@ const GestionInvites = () => {
                     </div>
                   </div>
                   
-                  <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="flex gap-2 flex-shrink-0">
                     <button
                       onClick={() => startEdit(invite)}
                       className="p-2.5 hover:bg-gold/10 rounded-lg transition-all text-primary hover:text-gold hover:scale-110"
@@ -359,8 +359,6 @@ const GestionInvites = () => {
                   </div>
                 </div>
               )}
-            </div>
-          ))}
             </div>
           </>
         )}
