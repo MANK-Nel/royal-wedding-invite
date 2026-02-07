@@ -61,9 +61,9 @@ const GestionInvites = () => {
       await chargerInvites();
       setFormData({ nom: "", prenom: "", numero_table: "" });
       setShowForm(false);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      setError("Erreur lors de l'ajout.");
+      setError(((err as { message?: string })?.message) ?? "Erreur lors de l'ajout.");
     } finally {
       setSaving(false);
     }
@@ -94,9 +94,9 @@ const GestionInvites = () => {
       await chargerInvites();
       setEditingId(null);
       setFormData({ nom: "", prenom: "", numero_table: "" });
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      setError("Erreur lors de la modification.");
+      setError(((err as { message?: string })?.message) ?? "Erreur lors de la modification.");
     } finally {
       setSaving(false);
     }

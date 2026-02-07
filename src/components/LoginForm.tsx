@@ -41,14 +41,15 @@ const LoginForm = ({ onSuccess }: LoginFormProps) => {
         if (error) throw error;
         setMessage("Vérifiez votre email pour confirmer votre inscription.");
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      if (err.message === "Invalid login credentials") {
+      const msg = (err as { message?: string })?.message ?? "";
+      if (msg === "Invalid login credentials") {
         setError("Email ou mot de passe incorrect.");
-      } else if (err.message === "Email not confirmed") {
+      } else if (msg === "Email not confirmed") {
         setError("Veuillez confirmer votre email avant de vous connecter.");
       } else {
-        setError(err.message || "Une erreur est survenue.");
+        setError(msg || "Une erreur est survenue.");
       }
     } finally {
       setLoading(false);
